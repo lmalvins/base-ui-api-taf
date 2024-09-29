@@ -6,6 +6,7 @@ export class HomePage {
   private searchInput: Locator;
   private acceptCookiesButton: Locator;
   private acceptNotificationsButton: Locator;
+  private readonly TIMEOUT=10000;
 
   constructor(page: Page) {
     this.page = page;
@@ -28,7 +29,7 @@ export class HomePage {
     try {
       await this.acceptCookiesButton.waitFor({
         state: 'visible',
-        timeout: 10000,
+        timeout: this.TIMEOUT,
       });
       await this.acceptCookiesButton.click();
     } catch (error) {
@@ -41,7 +42,7 @@ export class HomePage {
     try {
       await this.acceptNotificationsButton.waitFor({
         state: 'visible',
-        timeout: 10000,
+        timeout: this.TIMEOUT,
       });
       await this.acceptNotificationsButton.click();
     } catch (error) {
