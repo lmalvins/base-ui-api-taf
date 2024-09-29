@@ -42,8 +42,6 @@ export class AiraloService {
       }
     );
 
-    logger.info(response.status());
-    logger.info(await response.text());
     return response;
   }
 
@@ -64,9 +62,6 @@ export class AiraloService {
         package_id: package_id,
       }
     );
-
-    logger.info(response.status());
-    logger.info(await response.text());
     
     return response;
   }
@@ -87,8 +82,6 @@ export class AiraloService {
       }
     );
 
-    logger.info(response.status());
-    logger.info(await response.text());
     return response;
   }
 
@@ -108,8 +101,6 @@ export class AiraloService {
       }
     );
 
-    logger.info(response.status());
-    logger.info(await response.text());
     return response;
   }
 }

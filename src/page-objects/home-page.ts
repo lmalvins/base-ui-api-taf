@@ -54,5 +54,3 @@ export class HomePage {
     await this.page.getByTestId(text).click();
   }
 }
-
-// export default HomePage;

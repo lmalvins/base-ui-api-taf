@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../../src/page-objects/home-page';
 import { PlansPage } from '../../src/page-objects/plans-page';
-import { PlansDetailsPage } from '../../src/page-objects/plans-details-page';
+import { PlansDetails } from '../../src/page-objects/plans-details-component';
 
 test.describe('Searching for a local eSIM plan', () => {
   let homePage : HomePage
   let plansPage: PlansPage
-  let plansDetailPage: PlansDetailsPage
+  let plansDetailsPage: PlansDetails
 
   test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page);
@@ -30,13 +30,11 @@ test.describe('Searching for a local eSIM plan', () => {
     });
 
     await test.step('Verify eSIM plan details', async () => {
-      plansDetailPage = new PlansDetailsPage(page);
-
-      expect.soft((await plansDetailPage.getPlanTitleText())?.trim()).toBe("Moshi Moshi");
-      expect.soft(await plansDetailPage.getPlanCoverageText()).toBe("Japan");
-      expect.soft(await plansDetailPage.getPlanDataText()).toBe("1 GB");
-      expect.soft(await plansDetailPage.getPlanValidityText()).toBe("7 days");
-      expect.soft(await plansDetailPage.getPlanPriceText()).toBe("$4.50");
+      expect.soft((await (await plansPage.getPlanDetailsComponent()).getPlanTitleText())?.trim()).toBe("Moshi Moshi");
+      expect.soft(await (await plansPage.getPlanDetailsComponent()).getPlanCoverageText()).toBe("Japan");
+      expect.soft(await (await plansPage.getPlanDetailsComponent()).getPlanDataText()).toBe("1 GB");
+      expect.soft(await (await plansPage.getPlanDetailsComponent()).getPlanValidityText()).toBe("7 days");
+      expect.soft(await (await plansPage.getPlanDetailsComponent()).getPlanPriceText()).toBe("$4.50");
     });
   });
 });

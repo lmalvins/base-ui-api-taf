@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "test-ui": "npx playwright test tests/ui --headed",
+    "test-api": "npx playwright test tests/api",
     "test": "npx playwright test --headed",
     "format": "yarn prettier --write src/**/*.ts",
     "lint": "yarn eslint src/**/*.ts"
@@ -10,6 +12,7 @@
   "devDependencies": {
     "@eslint/js": "^9.11.1",
     "@playwright/test": "^1.47.2",
+    "@types/node": "^22.7.4",
     "eslint": "^9.11.1",
     "globals": "^15.9.0",
     "status-code-enum": "^1.0.0",

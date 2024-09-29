@@ -1,7 +1,7 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator } from '@playwright/test';
 
-export class PlansDetailsPage {
-  private readonly page: Page;
+export class PlansDetails {
+  private readonly container: Locator
   private firstSimPlanButton: Locator;
   private planDetailsContainer: Locator;
   private planTitle: Locator;
@@ -10,14 +10,13 @@ export class PlansDetailsPage {
   private planValidity: Locator;
   private planPrice: Locator;
 
-  constructor(page: Page) {
-    this.page = page;
-    this.planDetailsContainer = this.page.getByTestId('sim-detail-header');
-    this.planTitle = this.page.getByTestId('sim-detail-operator-title');
-    this.planCoverage = this.planDetailsContainer.getByTestId('COVERAGE-value');
-    this.planData = this.planDetailsContainer.getByTestId('DATA-value');
-    this.planValidity = this.planDetailsContainer.getByTestId('VALIDITY-value');
-    this.planPrice = this.planDetailsContainer.getByTestId('PRICE-value');
+  constructor(container: Locator) {
+    this.container = container;
+    this.planTitle = this.container.getByTestId('sim-detail-operator-title');
+    this.planCoverage = this.container.getByTestId('COVERAGE-value');
+    this.planData = this.container.getByTestId('DATA-value');
+    this.planValidity = this.container.getByTestId('VALIDITY-value');
+    this.planPrice = this.container.getByTestId('PRICE-value');
   }
 
   async getPlanTitleText() {
