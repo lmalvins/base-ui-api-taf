@@ -91,12 +91,12 @@ yarn lint
 ## Overview
 To have better organization, the project follows the **Page Object Model (POM)** structure. This helps in separating test logic from UI actions, making the test automation framework easier to maintain and extend.
 
-- The `src` folder contains the **page-object structure**, which has individual folders for pages and components.
-- The `tests` folder includes a separate **UI directory** dedicated to test specification files only.
+- The `src` folder contains the `page-objects` directory, where pages and components are located.
+- The `tests` folder includes a separate `ui` directory dedicated to test specification files only.
 
 ## Page Organization and Component Breakdown
 1. **Exploratory Test Run**: An initial test run was conducted to familiarize with the application and its elements.
-2. **Identification of Pages and Components**: Based on the findings, the main pages and components were identified, and the corresponding elements were extracted.
+2. **Identification of Pages and Components**: Based on the findings, and together with the requirements, the main pages and components were identified, and the corresponding elements were extracted.
 
 ### Organization Structure:
 - **Home Page**: Defined as `home-page`.
@@ -106,12 +106,12 @@ To have better organization, the project follows the **Page Object Model (POM)**
 
 ## Test File Structure
 The test structure is set up using `search-spec` files to describe the main functionalities to be tested.
-- A main `test.describe` with a generic scenario in case we need to check multiple plans.
+- A main `test.describe` With a high level test description.
 - A `test.beforeEach` to handle common prerequisites such as **cookie acceptance** and **notification handling**.
 - A `test` for the specific plan to check with its respectives `test.step`.
-- A step to **Search for a Specific Country**.
-- A step to **Navigate to the First eSIM Plan**.
-- A final step to **Verify Plan Details** according to the requirements in the provided document.
+    - A step to **Search for a Specific Country**.
+    - A step to **Navigate to the First eSIM Plan**.
+    - A final step to **Verify Plan Details** according to the requirements in the provided document.
 
 Given the multiple elements to validate, a **soft assertion strategy** is used to validate them without stopping the execution on the first failure.
 
@@ -127,7 +127,7 @@ In the `src` folder, the following directories have been added:
 - **`api` folder**: Contains the API client abstraction layer, including a file named `api-client`.
 
 ## API Object Model
-The `api-objects` approach is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows the same organization principle as the **Page Object Model (POM)** used in UI testing. It can be applied as one class per endpoint or one class per microservice.
+The `api-objects` approach is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
 
 ## Key Components:
 - **`airalo-service`**: This service class has been created for the Airalo monolith in this project. Each microservice, endpoint or endpoint groups should have it own service class, all necessary requests, urls, paths for a particular microservice are defined within this class.
@@ -143,12 +143,12 @@ The `api-objects` approach is an **abstraction layer** that helps organize reque
 ### Spec File Structure
 The specification file for API tests is similar to the one used for UI testing, but it has some specific configurations for handling API interactions.
 
-1. **Main Test Section**: A `browser` object is passed to use its context to handle HTTP requests.
-2. **Test Describe Section**: Performs the login process and obtains the required token.
-3. **Test Scenarios**:
-   - **Place Order**: Executes a POST request to create an order.
-   - **Verify Placed Order**: Ensures that the order meets the expected criteria.
-   - **Verify eSIMs Creation**: Checks that the eSIMs are correctly generated.
+- A main`test.describe`: With a high level test description.
+- A `test.beforeEach` section: Performs the login process and obtains the required token.
+- A `test` for orders/esims creation/verification:
+   - A step to **Place Order**: Executes a POST request to create an order.
+   - A step to **Verify Placed Order**: Ensures that the order meets the expected criteria.
+   - A step to **Verify eSIMs Creation**: Checks that the eSIMs are correctly generated.
 
 ### Testing Approach Modification
 According to the provided requirements, the original plan was to:
