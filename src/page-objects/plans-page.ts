@@ -7,18 +7,18 @@ export class PlansPage {
   // Locators
   private firstSimPlanButton: Locator;
   private storeTitle: Locator;
-  private plansDetailsContainer: Locator
+  private plansDetailsContainer: Locator;
 
   // Components
-  private readonly plansDetails: PlansDetails
+  private readonly plansDetails: PlansDetails;
 
   constructor(page: Page) {
     this.page = page;
     this.storeTitle = this.page.locator('#store-title');
     this.firstSimPlanButton = this.page.locator('.sim-item-link').first();
 
-    this.plansDetailsContainer = this.page.getByTestId('sim-detail-header')
-    this.plansDetails = new PlansDetails(this.plansDetailsContainer)
+    this.plansDetailsContainer = this.page.getByTestId('sim-detail-header');
+    this.plansDetails = new PlansDetails(this.plansDetailsContainer);
   }
 
   async getStoreTitle() {
@@ -30,6 +30,6 @@ export class PlansPage {
   }
 
   async getPlanDetailsComponent() {
-    return this.plansDetails
+    return this.plansDetails;
   }
 }

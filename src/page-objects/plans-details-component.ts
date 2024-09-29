@@ -1,7 +1,7 @@
 import { Locator } from '@playwright/test';
 
 export class PlansDetails {
-  private readonly container: Locator
+  private readonly container: Locator;
   private firstSimPlanButton: Locator;
   private planDetailsContainer: Locator;
   private planTitle: Locator;

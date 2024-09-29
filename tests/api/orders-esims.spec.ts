@@ -49,9 +49,9 @@ test.describe('Verifying API Order Generation', () => {
         expect.soft(orderObject.package_id).toBe("merhaba-7days-1gb")
         expect.soft(orderObject.currency).toBe("USD")
         expect.soft(orderObject.quantity).toBe(6)
-        expect.soft(orderObject.validity).toBe(7)
+        expect.soft(orderObject.validity).toBe("7")
         expect.soft(orderObject.data).toBe("1 GB")
-        expect.soft(orderObject.price).toBe(4.5)
+        expect.soft(orderObject.price).toBe("4.5")
       });
 
       // And the eSIMS are created
@@ -63,13 +63,13 @@ test.describe('Verifying API Order Generation', () => {
           simObject= (await response.json()).data.simable
 
           expect(response.ok()).toBeTruthy();
-          expect.soft (simObject.id).toEqual(orderObject.id)
-          expect.soft (simObject.code).toEqual(orderObject.code)
-          expect.soft (simObject.package_id).toEqual(orderObject.package_id)
-          expect.soft (simObject.currency).toEqual(orderObject.currency)
-          expect.soft (simObject.quantity).toEqual(orderObject.quantity)
-          expect.soft (simObject.type).toEqual(orderObject.type)
-          expect.soft (simObject.price).toEqual(orderObject.price)
+          expect.soft (simObject.id).toBe(orderObject.id)
+          expect.soft (simObject.code).toBe(orderObject.code)
+          expect.soft (simObject.package_id).toBe(orderObject.package_id)
+          expect.soft (simObject.currency).toBe(orderObject.currency)
+          expect.soft (simObject.quantity).toBe(orderObject.quantity)
+          expect.soft (simObject.type).toBe(orderObject.type)
+          expect.soft (simObject.price).toBe(orderObject.price)
         }
       });
     });
