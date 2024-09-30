@@ -91,21 +91,20 @@ yarn lint
 ## Overview
 To have better organization, the project follows the **Page Object Model (POM)** structure. This helps in separating test logic from UI actions, making the test automation framework easier to maintain and extend.
 
-- The `src` folder contains the `page-objects` directory, where pages and components are located.
-- The `tests` folder includes a separate `ui` directory dedicated to test specification files only.
+- The `src` folder contains a ui folder to separate from the api stuff, it contains the `page-objects` directory, where pages and components are located.
+- The `tests` folder also includes a separate `ui` directory dedicated to test ui specification files only.
 
 ## Page Organization and Component Breakdown
-1. **Exploratory Test Run**: An initial test run was conducted to familiarize with the application and its elements.
-2. **Identification of Pages and Components**: Based on the findings, and together with the requirements, the main pages and components were identified, and the corresponding elements were extracted.
+An initial test run was conducted to familiarize with the application and its elements. Based on the findings, and together with the requirements, the main pages and components were identified, and the corresponding elements were extracted.
 
 ### Organization Structure:
-- **Home Page**: Defined as `home-page`.
-- **Plans Page**: Defined as `plans-page`, containing a `plan-details` component.
+- **Home Page**: Defined as `home-page.ts`.
+- **Plans Page**: Defined as `plans-page.ts`, containing a `plan-details` component.
   - The `plan-details` component belongs to the `plans-page`. 
   - Even though the URL changes when this component is active, it is categorized as a component rather than a page because other plans are still accessible in the DOM. This indicates a modular structure, where the component is a container within the parent page.
 
 ## Test File Structure
-The test structure is set up using `search-spec` files to describe the main functionalities to be tested.
+The test structure is set up using `search-spec.ts` file to describe the main functionalities to be tested.
 - A main `test.describe` With a high level test description.
 - A `test.beforeEach` to handle common prerequisites such as **cookie acceptance** and **notification handling**.
 - A `test` for the specific plan to check with its respectives `test.step`.
@@ -113,6 +112,10 @@ The test structure is set up using `search-spec` files to describe the main func
     - A step to **Navigate to the First eSIM Plan**.
     - A final step to **Verify Plan Details** according to the requirements in the provided document.
 
+## Parallel executions
+The test autmation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the UI part it is enough avoiding common variables at a higher test.describe level, encapsulating the requiered object on each test definition.
+
+## Assertion Strategy
 Given the multiple elements to validate, a **soft assertion strategy** is used to validate them without stopping the execution on the first failure.
 
 ## Locator Strategy
@@ -122,18 +125,21 @@ Given the multiple elements to validate, a **soft assertion strategy** is used t
 
 # Approach for API Testing
 ## Overview
-In the `src` folder, the following directories have been added:
-- **`api-objects` folder**: Contains the structure to define the API service classes.
-- **`api` folder**: Contains the API client abstraction layer, including a file named `api-client`.
+The `src` folder contains a `api` folder to separate from the `ui` stuff,  it contains the `api-objects` folder, the `fixtures` folder and the `api-client.ts` file.
+- Subfolder:
+  - **`api-objects` folder**: is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
+  - **`fixtures` folder**: Contains all the fixtures required by the tests.
+  - **`api-client.ts` file**: Contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
 
 ## API Object Model
-The `api-objects` approach is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
+The `api-objects` approach introduce an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
 
 ## Key Components:
-- **`airalo-service`**: This service class has been created for the Airalo monolith in this project. Each microservice, endpoint or endpoint groups should have it own service class, all necessary requests, urls, paths for a particular microservice are defined within this class.
-  - This service class implements a base `APIClient`.
-  - The `APIClient` is located in the `api` folder, and it is another abstraction layer that contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
-
+- **`api/api-objects/airalo-service.ts`**: Following the API Objects principle mentioned above, for this service, all the necessary requests, urls, paths for this particular service are defined within this class.
+  This service class implements a the `api/api-client.ts` for all its requests.
+- **`api/api-client.ts`**: it is another abstraction layer that contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
+- **`api/fixtures/base-api-test-fixture.ts`**: This fixture helps on authenticating and generating the oauth token for every tests, it extedns the `test` functionality, avoiding steps like `test.beforeEach`.
+  
 ### Advantages of Using These Abstraction Layers
 1. **Code Reusability**: Common API methods (like GET, POST, DELETE) can be reused across multiple service classes, reducing duplication.
 2. **Improved Maintenance**: Changes to the HTTP request logic only need to be made in the base `APIClient` rather than in every service class.
@@ -143,9 +149,7 @@ The `api-objects` approach is an **abstraction layer** that helps organize reque
 ### Spec File Structure
 The specification file for API tests is similar to the one used for UI testing, but it has some specific configurations for handling API interactions.
 
-- A main`test.describe`: With a high level test description.
-- A `test.beforeEach` section: Performs the login process and obtains the required token.
-- A `test` for orders/esims creation/verification:
+- A main `test` for orders/esims creation/verification wich is extending from `the base-api-test-fixture.ts` fixture, it receives the `airaloService` and `token` from the fixture.
    - A step to **Place Order**: Executes a POST request to create an order.
    - A step to **Verify Placed Order**: Ensures that the order meets the expected criteria.
    - A step to **Verify eSIMs Creation**: Checks that the eSIMs are correctly generated.
@@ -164,5 +168,3 @@ According to the provided requirements, the original plan was to:
   4. **Assert Details** on each individual eSIM linked to the order using the iccid and the `/sims/:iccd` endpoint, in order to confirm that the details match the original order.
 
 This approach guarantees a robust validation of the connection between the order and the eSIMs, ensuring data consistency across different endpoints.
-
-
