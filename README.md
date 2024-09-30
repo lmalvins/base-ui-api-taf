@@ -128,7 +128,7 @@ Elements to verify accuracy, according to the document:
 - Validity: 7 days
 - Price: $4.50
 
-I decided to trim spaces to assert only the specific value.
+I decided to trim the leading and trailing white space to assert only the real values.
 
 ## Locator Strategy
 1. **Primary Approach**: I used Playwright's built-in locator methods `getByTestId`, leveraging the presence of `data-testid` attributes in almost all the elements.
