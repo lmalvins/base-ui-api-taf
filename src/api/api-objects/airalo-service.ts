@@ -1,7 +1,7 @@
 import { APIResponse, BrowserContext } from '@playwright/test';
 import StatusCode from 'status-code-enum';
 
-import { ApiClient } from '../api/api-client';
+import { ApiClient } from '../api-client';
 
 export { StatusCode };
 
