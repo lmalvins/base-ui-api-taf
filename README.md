@@ -41,13 +41,13 @@ yarn -v
 
 ## Project Setup
 ### Export API Credentials
-Before proceeding, make sure you export the required API credentials for testing. These credentials are the credentilas provided by you, necessary for token generation. You need to set the following environment variables in your terminal:
+Before proceeding, make sure you export the required API credentials for testing. These credentials are the credentials provided by you, necessary for token generation. You need to set the following environment variables in your terminal:
 
 ```bash
 export USER_ID="your_user_id"
 export USER_SECRET="your_user_secret"
 ```
-and replace `your_user_id` and `your_user_secret` with the actual credentials provided to you. 
+and replace `your_user_id` and `your_user_secret`. 
 
 **NOTE THAT:** if you do not export the env variables with the credentials the tests won't run, given that the token is needed for every request!
 
@@ -91,13 +91,13 @@ yarn lint
 # Approach for UI Testing
 
 ## Overview
-To have better organization, the project follows the **Page Object Model (POM)** structure. This helps in separating test logic from UI actions, making the test automation framework easier to maintain and extend.
+For every TAF I created from scratch I do use **Page Object Model** to have better organization. This helps in separating test logic from UI actions, making the TAF easier to maintain and extend.
 
-- The `src` folder contains a ui folder to separate from the api stuff, it contains the `page-objects` directory, where pages and components are located.
+- The `src` folder contains a ui folder to separate from the **api** stuff, it contains the `page-objects` directory, where pages and components are located.
 - The `tests` folder also includes a separate `ui` directory dedicated to test ui specification files only.
 
 ## Page Organization and Component Breakdown
-An initial test run was conducted to familiarize with the application and its elements. Based on the findings, and together with the requirements, the main pages and components were identified, and the corresponding elements were extracted.
+An initial exploration run was conducted to familiarize with the application and its elements, then together with the document with the requirements, the main pages and components were identified, and the corresponding elements were extracted.
 
 ### Organization Structure:
 - **Home Page**: Defined as `home-page.ts`.
@@ -107,18 +107,27 @@ An initial test run was conducted to familiarize with the application and its el
 
 ## Test File Structure
 The test structure is set up using `search-spec.ts` file to describe the main functionalities to be tested.
-- A main `test.describe` With a high level test description.
+- A main `test.describe` with a high level test description.
 - A `test.beforeEach` to handle common prerequisites such as **cookie acceptance** and **notification handling**.
-- A `test` for the specific plan to check with its respectives `test.step`.
+- A `test` for the specific plan to check with its respective `test.step`.
     - A step to **Search for a Specific Country**.
     - A step to **Navigate to the First eSIM Plan**.
     - A final step to **Verify Plan Details** according to the requirements in the provided document.
 
 ## Parallel executions
-The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the UI part it is enough avoiding common variables at a higher test.describe level, encapsulating the requiered objects on each test definition.
+The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the UI part it is enough avoiding common variables at a higher test.describe level, encapsulating the required objects on each test definition.
 
 ## Assertion Strategy
 Given the multiple elements to validate, a **soft assertion strategy** is used to validate them without stopping the execution on the first failure.
+
+Elements to verify accuracy, according to the document: 
+- Title: Moshi Moshi
+- Coverage: Japan
+- Data: 1 GB
+- Validity: 7 days
+- Price: $4.50
+
+I decided to trim spaces to assert only the specific value.
 
 ## Locator Strategy
 1. **Primary Approach**: I used Playwright's built-in locator methods `getByTestId`, leveraging the presence of `data-testid` attributes in almost all the elements.
@@ -127,9 +136,13 @@ Given the multiple elements to validate, a **soft assertion strategy** is used t
 
 # Approach for API Testing
 ## Overview
+For some time already I have been copying some ideas form the Page Object Model (from the structural point of view), to apply it on the API testing. When you are testing APIs, and even more when you are testing APIs in microservices architectures, there are a bunch of microservices, endpoints and info related to each of them that requires to be organized properly, that is what I called API Objects Model, where all the necessary requests, urls, paths, and any other relevant information for the service is stored in a service-api-object class.
+
+The API part of the TAF is structured as follows:
+
 The `src` folder contains a `api` folder to separate from the `ui` stuff,  it contains the `api-objects` folder, the `fixtures` folder and the `api-client.ts` file.
 
-- **`api-objects` folder**: is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
+- **`api-objects` folder**: is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture.
 - **`fixtures` folder**: Contains all the fixtures required by the tests.
 - **`api-client.ts` file**: Contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
 
@@ -148,13 +161,13 @@ The `src` folder contains a `api` folder to separate from the `ui` stuff,  it co
 ### Spec File Structure
 The specification file for API tests is similar to the one used for UI testing, but it has some specific configurations for handling API interactions.
 
-- A main `test` for orders/esims creation/verification wich is extending from `the base-api-test-fixture.ts` fixture, it receives the `airaloService` and `token` from the fixture.
+- A main `test` for orders/esims creation/verification which is extending from `the base-api-test-fixture.ts` fixture, and receives the `airaloService` and `token` from it.
    - A step to **Place Order**: Executes a POST request to create an order.
    - A step to **Verify Placed Order**: Ensures that the order meets the expected criteria.
    - A step to **Verify eSIMs Creation**: Checks that the eSIMs are correctly generated.
 
 ## Parallel executions
-The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the API part this was achieved by implementing a base-api-fixture that performs the logging process and guaranteeing not common variables at highger levels and encapsulating the requiered objects on each test definition.
+The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the API part this was achieved by implementing a `base-api-fixture` that performs the authentication process and guaranteeing not common variables at higher levels and encapsulating the required objects on each test definition.
 
 ### Testing Approach Modification
 According to the provided requirements, the original plan was to:
@@ -167,6 +180,6 @@ According to the provided requirements, the original plan was to:
   1. **Place the order** using the `/orders` endpoint.
   2. **Check the order** using the `/orders/:id` endpoint to ensure it was created with the specific requirements.
   3. **Retrieve eSIMs one by one** from the placed order, from the `sims` array when doing `GET` `/orders/:id`.
-  4. **Assert Details** on each individual eSIM linked to the order using the iccid and the `/sims/:iccd` endpoint, in order to confirm that the details match the original order.
+  4. **Assert Details** on each individual eSIM linked to the order using the iccid and the `/sims/:iccd` endpoint, in order to confirm that the details match the original order, instead of getting the 6 latests ones from the whole eSIMS list and retrieving all of them, not only the latest 6, and there is no need to deal with the pagination.
 
-This approach guarantees a robust validation of the connection between the order and the eSIMs, ensuring data consistency across different endpoints.
+This approach guarantees a robust validation of the connection between the order and the eSIMs, ensuring data consistency across different endpoints. If using the list with all the elements we would need to play with the pagination, and working with the pagination is not 
