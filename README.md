@@ -113,7 +113,7 @@ The test structure is set up using `search-spec.ts` file to describe the main fu
     - A final step to **Verify Plan Details** according to the requirements in the provided document.
 
 ## Parallel executions
-The test autmation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the UI part it is enough avoiding common variables at a higher test.describe level, encapsulating the requiered object on each test definition.
+The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the UI part it is enough avoiding common variables at a higher test.describe level, encapsulating the requiered objects on each test definition.
 
 ## Assertion Strategy
 Given the multiple elements to validate, a **soft assertion strategy** is used to validate them without stopping the execution on the first failure.
@@ -126,18 +126,15 @@ Given the multiple elements to validate, a **soft assertion strategy** is used t
 # Approach for API Testing
 ## Overview
 The `src` folder contains a `api` folder to separate from the `ui` stuff,  it contains the `api-objects` folder, the `fixtures` folder and the `api-client.ts` file.
-- Subfolder:
-  - **`api-objects` folder**: is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
-  - **`fixtures` folder**: Contains all the fixtures required by the tests.
-  - **`api-client.ts` file**: Contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
 
-## API Object Model
-The `api-objects` approach introduce an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
+- **`api-objects` folder**: is an **abstraction layer** that helps organize requests to different endpoints in a microservice or monolith architecture. This structure follows some principles as the **Page Object Model (POM)** used in UI testing.
+- **`fixtures` folder**: Contains all the fixtures required by the tests.
+- **`api-client.ts` file**: Contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
 
 ## Key Components:
 - **`api/api-objects/airalo-service.ts`**: Following the API Objects principle mentioned above, for this service, all the necessary requests, urls, paths for this particular service are defined within this class.
-  This service class implements a the `api/api-client.ts` for all its requests.
-- **`api/api-client.ts`**: it is another abstraction layer that contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
+  This service class implements the `api/api-client.ts` for all its requests.
+- **`api/api-client.ts`**: It is another abstraction layer that contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
 - **`api/fixtures/base-api-test-fixture.ts`**: This fixture helps on authenticating and generating the oauth token for every tests, it extedns the `test` functionality, avoiding steps like `test.beforeEach`.
   
 ### Advantages of Using These Abstraction Layers
@@ -153,6 +150,9 @@ The specification file for API tests is similar to the one used for UI testing, 
    - A step to **Place Order**: Executes a POST request to create an order.
    - A step to **Verify Placed Order**: Ensures that the order meets the expected criteria.
    - A step to **Verify eSIMs Creation**: Checks that the eSIMs are correctly generated.
+
+## Parallel executions
+The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the API part this was achieved by implementing a base-api-fixture that performs the logging process and guaranteeing not common variables at highger levels and encapsulating the requiered objects on each test definition.
 
 ### Testing Approach Modification
 According to the provided requirements, the original plan was to:
