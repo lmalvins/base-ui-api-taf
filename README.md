@@ -180,6 +180,6 @@ According to the provided requirements, the original plan was to:
   1. **Place the order** using the `/orders` endpoint.
   2. **Check the order** using the `/orders/:id` endpoint to ensure it was created with the specific requirements.
   3. **Retrieve eSIMs one by one** from the placed order, from the `sims` array when doing `GET` `/orders/:id`.
-  4. **Assert Details** on each individual eSIM linked to the order using the iccid and the `/sims/:iccd` endpoint, in order to confirm that the details match the original order, instead of getting the 6 latests ones from the whole eSIMS list and retrieving all of them, not only the latest 6, and there is no need to deal with the pagination.
+  4. **Assert Details** on each individual eSIM linked to the order using the iccid and the `/sims/:iccd` endpoint, in order to confirm that the details match the original order, instead of getting the 6 latests ones from the whole eSIMS list and retrieving all of them.
 
-This approach guarantees a robust validation of the connection between the order and the eSIMs, ensuring data consistency across different endpoints. If using the list with all the elements we would need to play with the pagination, and working with the pagination is not 
+This approach guarantees a robust validation of the connection between the order and the eSIMs, ensuring data consistency across different endpoints.
