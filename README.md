@@ -1,4 +1,5 @@
 # base-ui-api-taf
+A lightweight Test Automation Framework (TAF) that blends UI and API testing with Playwright’s power. Built for who like their automation sharp, modular, and fast🚀.
 
 ## Prerequisites
 
@@ -138,6 +139,7 @@ I decided to trim spaces to assert only the specific value.
 ## Overview
 For some time already I have been copying some ideas form the Page Object Model (from the structural point of view), to apply it on the API testing. When you are testing APIs, and even more when you are testing APIs in microservices architectures, there are a bunch of microservices, endpoints and info related to each of them that requires to be organized properly, that is what I called API Objects Model, where all the necessary requests, urls, paths, and any other relevant information for the service is stored in a service-api-object class.
 
+## Organization and Component Breakdown
 The API part of the TAF is structured as follows:
 
 The `src` folder contains a `api` folder to separate from the `ui` stuff,  it contains the `api-objects` folder, the `fixtures` folder and the `api-client.ts` file.
@@ -146,7 +148,7 @@ The `src` folder contains a `api` folder to separate from the `ui` stuff,  it co
 - **`fixtures` folder**: Contains all the fixtures required by the tests.
 - **`api-client.ts` file**: Contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
 
-## Key Components:
+### Key Components:
 - **`api/api-objects/airalo-service.ts`**: Following the API Objects principle mentioned above, for this service, all the necessary requests, urls, paths for this particular service are defined within this class.
   This service class implements the `api/api-client.ts` for all its requests.
 - **`api/api-client.ts`**: It is another abstraction layer that contains the primitive HTTP methods (`GET`, `POST`, etc.) required for this particular testing process.
@@ -169,7 +171,7 @@ The specification file for API tests is similar to the one used for UI testing, 
 ## Parallel executions
 The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the API part this was achieved by implementing a `base-api-fixture` that performs the authentication process and guaranteeing not common variables at higher levels and encapsulating the required objects on each test definition.
 
-### Testing Approach Modification
+## Testing Approach Modification
 According to the provided requirements, the original plan was to:
 
 1. Create the order using the `/orders` endpoint.
