@@ -16,6 +16,8 @@ export const test = base.extend<TestFixtures>({
   },
   token: async ({ airaloService }, use) => {
     logger.info('Authenticating to retrieve a unique token for each test');
+    expect ((process.env.USER_ID && process.env.USER_SECRET)).toBeTruthy()
+  
     const response = await airaloService.login(`${process.env.USER_ID}`, `${process.env.USER_SECRET}`);
     expect(response.ok).toBeTruthy();
     const token = (await response.json()).data.access_token;
