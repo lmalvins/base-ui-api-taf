@@ -169,7 +169,7 @@ The specification file for API tests is similar to the one used for UI testing, 
    - A step to **Verify eSIMs Creation**: Checks that the eSIMs are correctly generated.
 
 ## Parallel executions
-The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the API part this was achieved by implementing a `base-api-fixture` that performs the authentication process and guaranteeing not common variables at higher levels and encapsulating the required objects on each test definition.
+The test automation framework is configured to run in full parallelization in the `playwright.config.js` file, so the tests needed to be designed also taking that into consideration. For the API part this was achieved by implementing a `base-api-fixture` that performs the authentication process and initialize the AiraloService object using independent context and fresh environment per test, the rest of the oobjects are encapsulated on each test definition.
 
 ## Testing Approach Modification
 According to the provided requirements, the original plan was to:
