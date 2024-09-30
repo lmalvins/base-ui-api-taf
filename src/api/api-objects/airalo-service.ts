@@ -40,11 +40,7 @@ export class AiraloService {
     );
   }
 
-  async postOrder(
-    package_id: string,
-    quantity: number,
-    token: string
-  ): Promise<APIResponse> {
+  async postOrder(package_id: string, quantity: number, token: string): Promise<APIResponse> {
     return await this.client.post(
       this.ORDERS_ENDPOINT,
       {

@@ -1,19 +1,17 @@
 import { Locator, Page } from '@playwright/test';
-import logger from '../utils/logger';
+import logger from '../../utils/logger';
 
 export class HomePage {
   private readonly page: Page;
   private searchInput: Locator;
   private acceptCookiesButton: Locator;
   private acceptNotificationsButton: Locator;
-  private readonly TIMEOUT=10000;
+  private readonly TIMEOUT = 10000;
 
   constructor(page: Page) {
     this.page = page;
     this.searchInput = this.page.getByTestId('search-input');
-    this.acceptCookiesButton = this.page.locator(
-      '#onetrust-accept-btn-handler'
-    );
+    this.acceptCookiesButton = this.page.locator('#onetrust-accept-btn-handler');
     this.acceptNotificationsButton = this.page.locator('#wzrk-confirm');
   }
 
