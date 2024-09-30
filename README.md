@@ -47,7 +47,9 @@ Before proceeding, make sure you export the required API credentials for testing
 export USER_ID="your_user_id"
 export USER_SECRET="your_user_secret"
 ```
-and replace `your_user_id` and `your_user_secret` with the actual credentials provided to you.
+and replace `your_user_id` and `your_user_secret` with the actual credentials provided to you. 
+
+**NOTE THAT:** if you do not export the env variables with the credentials the tests won't run, given that the token is needed for every request!
 
 ## Installing Project Dependencies
 Once the API credentials are set up, install the project dependencies by running:
